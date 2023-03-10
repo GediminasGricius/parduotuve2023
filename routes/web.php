@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PdfController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route("products.index");
 });
 
 Auth::routes();
@@ -24,3 +26,8 @@ Route::resource("orders", OrderController::class);
 Route::post("orders/{id}/addProduct", [OrderController::class, "addProduct"])->name("orders.addProduct");
 Route::get("orders/{id}/deleteProduct/{productId}", [OrderController::class, "deleteProduct"])->name("orders.deleteProduct");
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::resource("products", ProductController::class);
+
+
+Route::get('/pdf/{file}', [PdfController::class, 'getPdf'])->middleware('auth')->name('pdf.get');

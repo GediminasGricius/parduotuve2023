@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -12,7 +13,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+         return view("products.index",[
+            "products"=>Product::all()
+        ]);
     }
 
     /**
@@ -44,7 +47,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return view("products.edit",[
+            "product"=>$product
+        ]);
     }
 
     /**
@@ -52,7 +57,17 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $product->name=$request->name;
+        $product->price=$request->price;
+        if ($request->file("picture")!=null){
+            if ($product->picture!=null){
+                unlink(storage_path()."/app/public/products/".$product->picture);
+            }
+            $request->file("picture")->store("/public/products");
+            $product->picture=$request->file("picture")->hashName();
+        }
+        $product->save();
+        return redirect()->route("products.index");
     }
 
     /**
