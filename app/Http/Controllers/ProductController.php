@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
+    public function __construct(){
+        $this->authorizeResource(Product::class, 'product');
+    }
     /**
      * Display a listing of the resource.
      */
@@ -31,15 +35,19 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       if ($request->user()->can('create', Product::class)){
+
+       }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(Request $request, Product $product)
     {
-        //
+        if ($request->user()->can('update', $product)){
+
+        }
     }
 
     /**
@@ -47,6 +55,11 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        /*
+        if (Gate::denies('editProduct', $product)){
+            return redirect()->back();
+        }
+*/
         return view("products.edit",[
             "product"=>$product
         ]);

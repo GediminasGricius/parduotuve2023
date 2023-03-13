@@ -11,14 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->timestamp('date');
-            $table->foreignId("user_id")->constrained();
-
-            $table->timestamps();
-
-
+        Schema::table('users', function (Blueprint $table) {
+            //$table->string('name', 100)->change();
+            $table->renameColumn('firstName','name');
         });
     }
 
@@ -27,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        //
     }
 };
