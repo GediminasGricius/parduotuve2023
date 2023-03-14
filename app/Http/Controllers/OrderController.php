@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 
@@ -16,10 +17,21 @@ class OrderController extends Controller
      */
     public function index()
     {
+       // $kiekis=Order::count();
+       // $orders=Order::all();
+
+
+
+        //$orders= Order::get();
+
+        //$orders->where('id',2) ;
+
+       // $orders=Order::get();
+
 
 
         return view("orders.index",[
-            "orders" => Order::all()
+            "orders" =>Order::all()
         ]);
     }
 
