@@ -35,4 +35,8 @@ class Product extends Model
             get: fn ( $value, $attributes) => round($attributes['price']*1.21, 2)." EUR",
         );
     }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

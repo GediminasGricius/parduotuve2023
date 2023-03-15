@@ -31,3 +31,9 @@ Route::resource("products", ProductController::class);
 
 
 Route::get('/pdf/{file}', [PdfController::class, 'getPdf'])->middleware('auth')->name('pdf.get');
+
+Route::get('/testemail', function (){
+    \Illuminate\Support\Facades\Mail::send(['text'=>'email.test'], [], function($message){
+        $message->to("vr.ku.lt@gmail.com")->subject("Jus laimejote rinkimus")->from("bit@poligonas.lt");
+    });
+});

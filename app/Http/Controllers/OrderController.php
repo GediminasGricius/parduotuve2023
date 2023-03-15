@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AddProductToOrder;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
@@ -102,6 +103,7 @@ class OrderController extends Controller
             'price'=>$product->price
         ]);
         $order->save();
+        AddProductToOrder::dispatch($order, $product);
         return redirect()->route("orders.show",$order->id);
     }
 

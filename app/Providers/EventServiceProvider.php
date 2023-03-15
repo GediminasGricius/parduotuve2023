@@ -2,6 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\AddProductToOrder;
+use App\Events\ProductEdited;
+use App\Listeners\InformAdminProductEdited;
+use App\Listeners\InformOwnerNewOrder;
+use App\Listeners\InformUserProductEdited;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,6 +23,15 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        ProductEdited::class => [
+            InformUserProductEdited::class,
+            InformAdminProductEdited::class,
+        ],
+       // AddProductToOrder::class => [
+       //       InformOwnerNewOrder::class
+
+        //    ],
+
     ];
 
     /**
@@ -25,7 +39,15 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+
+            Event::listen(
+                AddProductToOrder::class,
+                [InformOwnerNewOrder::class, 'handle']
+            );
+
+
+
+
     }
 
     /**

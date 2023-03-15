@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ProductEdited;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -81,6 +82,8 @@ class ProductController extends Controller
             $product->picture=$request->file("picture")->hashName();
         }
         $product->save();
+        ProductEdited::dispatch();
+        dd();
         return redirect()->route("products.index");
     }
 
@@ -89,6 +92,6 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        ProductEdited::dispatch();
     }
 }
